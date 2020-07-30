@@ -1,0 +1,111 @@
+#%RAML 1.0
+title: avito-message
+version: 1
+baseUri: http://localhost:9000
+types: 
+  Chat:
+    type: object
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+      users:
+        type: array
+      created_at:
+        type: datetime
+  Message:
+    type: object
+    properties:
+      id:
+        type: string
+      chat:
+        type: string
+      author:
+        type: string
+      text:
+        type: string
+      created_at:
+        type: datetime    
+   
+/users:
+  /add:
+    post:
+      body:
+        application/json:
+          properties:
+            username:
+              type: string
+              example: Fedor
+      responses:
+        200:
+          body:
+            application/json:
+              type: 
+                properties:
+                  id: string
+/chats:
+  /add:
+    post:
+      body:
+        application/json:
+          properties:
+            name:
+              type: string
+              example: The best chat ever
+            users:
+              type: array
+              example: ["0", "1", "999"]
+      responses:
+        200:
+          body:
+            application/json:
+              properties:
+                id: string
+  /get:
+    post:
+      body:
+        application/json:
+          type:
+            properties:
+              user: string
+      responses:
+        200:
+          body:
+            application/json:
+              properties:
+                chats: 
+                  type: Chat[]
+/message:
+  /add:
+    post:
+      body:
+        application/json:
+          properties:
+            chat: 
+              type: string
+            author:
+              type: string
+            text:
+              type: string
+      responses:
+        200:
+          body:
+            application/json:
+              properties:
+                id:
+                  type: string
+  /get:
+    post:
+      body:
+        applications/json:
+          properties:
+            chat:
+              type: string
+      responses:
+        200:
+          body:
+            application/json:
+              properties:
+                messages: 
+                  type: Message[]

@@ -1,0 +1,9 @@
+
+docker run  \
+  -v "$PWD":/app/api \
+  -e API_PROJECT="avito-message.raml" \
+  -e API_TYPE="RAML 1.0" \
+  -e API_MIME="application/raml" \
+  -p 8080:8080 \
+  gcr.io/api-console-a6952/app:0.1.0
+  

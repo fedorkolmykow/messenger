@@ -1,0 +1,20 @@
+version: '3'
+services:
+  server:
+    build: message_service/
+    ports:
+      - "9000:9000"
+    depends_on:
+      - postgres
+    restart: always
+  postgres:
+    container_name: composepostgres
+    build: Postgres/
+  docs:
+    image: gcr.io/api-console-a6952/app:0.1.0
+    ports: "8080:8080"
+    volume: "$PWD"/message_service/docs/:/app/api
+    environment:
+      - API_PROJECT="avito-message.raml"
+      - API_TYPE="RAML 1.0"
+      - API_MIME="application/raml"

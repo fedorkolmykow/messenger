@@ -1,0 +1,6 @@
+{
+  "main": "avito-message.raml",
+  "name": "avito-message",
+  "classifier": "raml",
+  "tags": []
+}
