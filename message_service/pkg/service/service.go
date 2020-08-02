@@ -5,7 +5,7 @@ import (
 	"sort"
 )
 
-type dbclient interface {
+type dbClient interface {
 	InsertUser(userAddReq *m.UserAddRequest) (userAddResp *m.UserAddResponse, err error)
 	InsertChat(chatAddReq *m.ChatAddRequest) (chatAddResp *m.ChatAddResponse, err error)
 	InsertMessage(mesAddReq *m.MessageAddRequest) (mesAddResp *m.MessageAddResponse, err error)
