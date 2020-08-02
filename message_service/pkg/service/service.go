@@ -22,7 +22,7 @@ type Service interface {
 }
 
 type service struct{
-	db dbclient
+	db dbClient
 }
 
 func (s *service) AddUser(userAddReq *m.UserAddRequest) (userAddResp *m.UserAddResponse, err error){
@@ -53,6 +53,6 @@ func (s *service) GetMessages(mesGetReq *m.MessagesGetRequest) (mesGetResp *m.Me
 	return
 }
 
-func NewService(db dbclient) Service{
+func NewService(db dbClient) Service{
 	return &service{db: db}
 }
