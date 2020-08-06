@@ -27,17 +27,17 @@ func (s *server) HandleAddUser(w http.ResponseWriter, r *http.Request) {
 	userAddReq:= &m.UserAddRequest{}
 	err = userAddReq.UnmarshalJSON(body)
 	if err != nil {
-		http.Error(w, http.StatusText(400), http.StatusBadRequest)
+		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
 	userAddResp, err := s.svc.AddUser(userAddReq)
 	if err != nil {
-		http.Error(w, http.StatusText(500), http.StatusInternalServerError)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 	resp, err := userAddResp.MarshalJSON()
 	if err != nil {
-		http.Error(w, http.StatusText(500), http.StatusInternalServerError)
+		http.Error(w, err.Error() ,http.StatusInternalServerError)
 		return
 	}
 	w.Header().Set("Content-Type", "application/json")
@@ -50,17 +50,17 @@ func (s *server) HandleAddChat(w http.ResponseWriter, r *http.Request) {
 	chatAddReq:= &m.ChatAddRequest{}
 	err = chatAddReq.UnmarshalJSON(body)
 	if err != nil {
-		http.Error(w, http.StatusText(400), http.StatusBadRequest)
+		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
 	chatAddResp, err := s.svc.AddChat(chatAddReq)
 	if err != nil {
-		http.Error(w, http.StatusText(500), http.StatusInternalServerError)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 	resp, err := chatAddResp.MarshalJSON()
 	if err != nil {
-		http.Error(w, http.StatusText(500), http.StatusInternalServerError)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 	w.Header().Set("Content-Type", "application/json")
@@ -73,17 +73,17 @@ func (s *server) HandleGetChat(w http.ResponseWriter, r *http.Request) {
 	chatsGetReq:= &m.ChatsGetRequest{}
 	err = chatsGetReq.UnmarshalJSON(body)
 	if err != nil {
-		http.Error(w, http.StatusText(400), http.StatusBadRequest)
+		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
 	chatsGetResp, err := s.svc.GetChats(chatsGetReq)
 	if err != nil {
-		http.Error(w, http.StatusText(500), http.StatusInternalServerError)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 	resp, err := chatsGetResp.MarshalJSON()
 	if err != nil {
-		http.Error(w, http.StatusText(500), http.StatusInternalServerError)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 	w.Header().Set("Content-Type", "application/json")
@@ -96,17 +96,17 @@ func (s *server) HandleAddMessage(w http.ResponseWriter, r *http.Request) {
 	mesAddReq:= &m.MessageAddRequest{}
 	err = mesAddReq.UnmarshalJSON(body)
 	if err != nil {
-		http.Error(w, http.StatusText(400), http.StatusBadRequest)
+		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
 	mesAddResp, err := s.svc.AddMessage(mesAddReq)
 	if err != nil {
-		http.Error(w, http.StatusText(500), http.StatusInternalServerError)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 	resp, err := mesAddResp.MarshalJSON()
 	if err != nil {
-		http.Error(w, http.StatusText(500), http.StatusInternalServerError)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 	w.Header().Set("Content-Type", "application/json")
@@ -119,17 +119,17 @@ func (s *server) HandleGetMessage(w http.ResponseWriter, r *http.Request) {
 	mesGetReq:= &m.MessagesGetRequest{}
 	err = mesGetReq.UnmarshalJSON(body)
 	if err != nil {
-		http.Error(w, http.StatusText(400), http.StatusBadRequest)
+		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
 	mesGetResp, err := s.svc.GetMessages(mesGetReq)
 	if err != nil {
-		http.Error(w, http.StatusText(500), http.StatusInternalServerError)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 	resp, err := mesGetResp.MarshalJSON()
 	if err != nil {
-		http.Error(w, http.StatusText(500), http.StatusInternalServerError)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 	w.Header().Set("Content-Type", "application/json")
