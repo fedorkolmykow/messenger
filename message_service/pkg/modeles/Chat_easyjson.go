@@ -201,7 +201,7 @@ func easyjsonF77207f2DecodeAvitoMessageMessageServicePkgModeles2(in *jlexer.Lexe
 		}
 		switch key {
 		case "id":
-			out.ChatId = int(in.Int())
+			out.ChatId = string(in.String())
 		default:
 			in.SkipRecursive()
 		}
@@ -219,7 +219,7 @@ func easyjsonF77207f2EncodeAvitoMessageMessageServicePkgModeles2(out *jwriter.Wr
 	{
 		const prefix string = ",\"id\":"
 		out.RawString(prefix[1:])
-		out.Int(int(in.ChatId))
+		out.String(string(in.ChatId))
 	}
 	out.RawByte('}')
 }
@@ -276,16 +276,16 @@ func easyjsonF77207f2DecodeAvitoMessageMessageServicePkgModeles3(in *jlexer.Lexe
 				in.Delim('[')
 				if out.UsersId == nil {
 					if !in.IsDelim(']') {
-						out.UsersId = make([]int, 0, 8)
+						out.UsersId = make([]string, 0, 4)
 					} else {
-						out.UsersId = []int{}
+						out.UsersId = []string{}
 					}
 				} else {
 					out.UsersId = (out.UsersId)[:0]
 				}
 				for !in.IsDelim(']') {
-					var v4 int
-					v4 = int(in.Int())
+					var v4 string
+					v4 = string(in.String())
 					out.UsersId = append(out.UsersId, v4)
 					in.WantComma()
 				}
@@ -321,7 +321,7 @@ func easyjsonF77207f2EncodeAvitoMessageMessageServicePkgModeles3(out *jwriter.Wr
 				if v5 > 0 {
 					out.RawByte(',')
 				}
-				out.Int(int(v6))
+				out.String(string(v6))
 			}
 			out.RawByte(']')
 		}
@@ -392,7 +392,7 @@ func easyjsonF77207f2DecodeAvitoMessageMessageServicePkgModeles4(in *jlexer.Lexe
 				}
 				for !in.IsDelim(']') {
 					var v7 User
-					easyjsonF77207f2DecodeAvitoMessageMessageServicePkgModeles5(in, &v7)
+					(v7).UnmarshalEasyJSON(in)
 					out.Users = append(out.Users, v7)
 					in.WantComma()
 				}
@@ -435,7 +435,7 @@ func easyjsonF77207f2EncodeAvitoMessageMessageServicePkgModeles4(out *jwriter.Wr
 				if v8 > 0 {
 					out.RawByte(',')
 				}
-				easyjsonF77207f2EncodeAvitoMessageMessageServicePkgModeles5(out, v9)
+				(v9).MarshalEasyJSON(out)
 			}
 			out.RawByte(']')
 		}
@@ -470,60 +470,4 @@ func (v *Chat) UnmarshalJSON(data []byte) error {
 // UnmarshalEasyJSON supports easyjson.Unmarshaler interface
 func (v *Chat) UnmarshalEasyJSON(l *jlexer.Lexer) {
 	easyjsonF77207f2DecodeAvitoMessageMessageServicePkgModeles4(l, v)
-}
-func easyjsonF77207f2DecodeAvitoMessageMessageServicePkgModeles5(in *jlexer.Lexer, out *User) {
-	isTopLevel := in.IsStart()
-	if in.IsNull() {
-		if isTopLevel {
-			in.Consumed()
-		}
-		in.Skip()
-		return
-	}
-	in.Delim('{')
-	for !in.IsDelim('}') {
-		key := in.UnsafeFieldName(false)
-		in.WantColon()
-		if in.IsNull() {
-			in.Skip()
-			in.WantComma()
-			continue
-		}
-		switch key {
-		case "id":
-			out.UserId = string(in.String())
-		case "username":
-			out.Username = string(in.String())
-		case "created_at":
-			out.CreatedAt = string(in.String())
-		default:
-			in.SkipRecursive()
-		}
-		in.WantComma()
-	}
-	in.Delim('}')
-	if isTopLevel {
-		in.Consumed()
-	}
-}
-func easyjsonF77207f2EncodeAvitoMessageMessageServicePkgModeles5(out *jwriter.Writer, in User) {
-	out.RawByte('{')
-	first := true
-	_ = first
-	{
-		const prefix string = ",\"id\":"
-		out.RawString(prefix[1:])
-		out.String(string(in.UserId))
-	}
-	{
-		const prefix string = ",\"username\":"
-		out.RawString(prefix)
-		out.String(string(in.Username))
-	}
-	{
-		const prefix string = ",\"created_at\":"
-		out.RawString(prefix)
-		out.String(string(in.CreatedAt))
-	}
-	out.RawByte('}')
 }

@@ -6,16 +6,16 @@ type Chat struct {
 	ChatId    string       `json:"id"`
 	Name      string       `json:"name"`
 	Users     []User  	   `json:"users"`
-	CreatedAt time.Time    `json:"created_at"`
+	CreatedAt string       `json:"created_at"`
 }
 
 type ChatAddRequest struct {
 	Name      string  `json:"name"`
-	UsersId   []int   `json:"users"`
+	UsersId   []string   `json:"users"`
 }
 
 type ChatAddResponse struct {
-	ChatId      int  `json:"id"`
+	ChatId      string  `json:"id"`
 }
 
 type ChatsGetRequest struct {
@@ -27,13 +27,14 @@ type ChatsGetResponse struct {
 }
 
 func (s ChatsGetResponse) Less(i, j int) bool {
-	return s.Chats[i].CreatedAt.Before(s.Chats[j].CreatedAt)
+	ti, _ := time.Parse(time.RFC822 ,s.Chats[i].CreatedAt)
+	tj, _ := time.Parse(time.RFC822 ,s.Chats[j].CreatedAt)
+	return ti.Before(tj)
 }
 
 func (s ChatsGetResponse) Swap(i, j int) {
-	s.Chats[i].CreatedAt,
-		s.Chats[j].CreatedAt = s.Chats[j].CreatedAt,
-		s.Chats[i].CreatedAt
+	s.Chats[i].CreatedAt, s.Chats[j].CreatedAt =
+		s.Chats[j].CreatedAt, s.Chats[i].CreatedAt
 }
 
 func (s ChatsGetResponse) Len() int {

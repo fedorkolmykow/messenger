@@ -201,7 +201,7 @@ func easyjson51ee17fDecodeAvitoMessageMessageServicePkgModeles2(in *jlexer.Lexer
 		}
 		switch key {
 		case "id":
-			out.MessageId = int(in.Int())
+			out.MessageId = string(in.String())
 		default:
 			in.SkipRecursive()
 		}
@@ -219,7 +219,7 @@ func easyjson51ee17fEncodeAvitoMessageMessageServicePkgModeles2(out *jwriter.Wri
 	{
 		const prefix string = ",\"id\":"
 		out.RawString(prefix[1:])
-		out.Int(int(in.MessageId))
+		out.String(string(in.MessageId))
 	}
 	out.RawByte('}')
 }
