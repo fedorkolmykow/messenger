@@ -3,12 +3,13 @@ package service
 import (
 	m "avito_message/message_service/pkg/modeles"
 	"sort"
+	"time"
 )
 
 type dbClient interface {
-	InsertUser(userAddReq *m.UserAddRequest) (userAddResp *m.UserAddResponse, err error)
-	InsertChat(chatAddReq *m.ChatAddRequest) (chatAddResp *m.ChatAddResponse, err error)
-	InsertMessage(mesAddReq *m.MessageAddRequest) (mesAddResp *m.MessageAddResponse, err error)
+	InsertUser(userAddReq *m.UserAddRequest, createdAt string) (userAddResp *m.UserAddResponse, err error)
+	InsertChat(chatAddReq *m.ChatAddRequest, createdAt string) (chatAddResp *m.ChatAddResponse, err error)
+	InsertMessage(mesAddReq *m.MessageAddRequest, createdAt string) (mesAddResp *m.MessageAddResponse, err error)
 	SelectChats(chatsGetReq *m.ChatsGetRequest) (chatsGetResp *m.ChatsGetResponse, err error)
 	SelectMessages(mesGetReq *m.MessagesGetRequest) (mesGetResp *m.MessagesGetResponse, err error)
 }
@@ -26,17 +27,20 @@ type service struct{
 }
 
 func (s *service) AddUser(userAddReq *m.UserAddRequest) (userAddResp *m.UserAddResponse, err error){
-	return s.db.InsertUser(userAddReq)
+	createdAt := time.Now().Format(time.RFC822)
+	return s.db.InsertUser(userAddReq, createdAt)
 }
 
 
 func (s *service) AddChat(chatAddReq *m.ChatAddRequest) (chatAddResp *m.ChatAddResponse, err error){
-	return s.db.InsertChat(chatAddReq)
+	createdAt := time.Now().Format(time.RFC822)
+	return s.db.InsertChat(chatAddReq, createdAt)
 }
 
 
 func (s *service) AddMessage(mesAddReq *m.MessageAddRequest) (mesAddResp *m.MessageAddResponse, err error){
-	return s.db.InsertMessage(mesAddReq)
+	createdAt := time.Now().Format(time.RFC822)
+	return s.db.InsertMessage(mesAddReq, createdAt)
 }
 
 
