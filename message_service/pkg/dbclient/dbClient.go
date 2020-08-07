@@ -11,9 +11,9 @@ import (
 )
 
 type DbClient interface {
-	InsertUser(userAddReq *m.UserAddRequest, createdAt string) (userAddResp *m.UserAddResponse, err error)
-	InsertChat(chatAddReq *m.ChatAddRequest, createdAt string) (chatAddResp *m.ChatAddResponse, err error)
-	InsertMessage(mesAddReq *m.MessageAddRequest, createdAt string) (mesAddResp *m.MessageAddResponse, err error)
+	InsertUser(userAddReq *m.UserAddRequest) (userAddResp *m.UserAddResponse, err error)
+	InsertChat(chatAddReq *m.ChatAddRequest) (chatAddResp *m.ChatAddResponse, err error)
+	InsertMessage(mesAddReq *m.MessageAddRequest) (mesAddResp *m.MessageAddResponse, err error)
 	SelectChats(chatsGetReq *m.ChatsGetRequest) (chatsGetResp *m.ChatsGetResponse, err error)
 	SelectMessages(mesGetReq *m.MessagesGetRequest) (mesGetResp *m.MessagesGetResponse, err error)
 }
@@ -37,32 +37,32 @@ selectMessages = "SELECT Messages.message_id, Messages.author_id, Messages.chat_
 	"WHERE chat_id = $1;"
 )
 
-func (d *db) InsertUser(userAddReq *m.UserAddRequest, createdAt string) (userAddResp *m.UserAddResponse, err error) {
+func (d *db) InsertUser(userAddReq *m.UserAddRequest) (userAddResp *m.UserAddResponse, err error) {
 	userAddResp = &m.UserAddResponse{}
-	row := d.dbCon.QueryRow(context.Background(), insertUser, userAddReq.Username, createdAt)
+	row := d.dbCon.QueryRow(context.Background(), insertUser, userAddReq.Username, userAddReq.CreatedAt)
 	err = row.Scan(&userAddResp.UserId)
 	if err!=nil{
 		fmt.Println(err)
 	}
 	return
 }
-func (d *db) InsertChat(chatAddReq *m.ChatAddRequest, createdAt string) (chatAddResp *m.ChatAddResponse, err error) {
+func (d *db) InsertChat(chatAddReq *m.ChatAddRequest) (chatAddResp *m.ChatAddResponse, err error) {
 	chatAddResp = &m.ChatAddResponse{}
-	row := d.dbCon.QueryRow(context.Background(), insertChat, chatAddReq.Name, createdAt)
+	row := d.dbCon.QueryRow(context.Background(), insertChat, chatAddReq.Name, chatAddReq.CreatedAt)
 	err = row.Scan(&chatAddResp.ChatId)
 	if err!=nil{
 		return
 	}
 
 	for i, _ := range chatAddReq.UsersId{
-		_, err = d.dbCon.Query(context.Background(), insertChatUsers, id, chatAddReq.UsersId[i])
+		_, err = d.dbCon.Query(context.Background(), insertChatUsers, chatAddResp.ChatId, chatAddReq.UsersId[i])
 	}
 	return
 }
-func (d *db) InsertMessage(mesAddReq *m.MessageAddRequest, createdAt string) (mesAddResp *m.MessageAddResponse, err error) {
+func (d *db) InsertMessage(mesAddReq *m.MessageAddRequest) (mesAddResp *m.MessageAddResponse, err error) {
 	mesAddResp = &m.MessageAddResponse{}
 	row := d.dbCon.QueryRow(context.Background(), insertMessage,
-		mesAddReq.AuthorId, mesAddReq.ChatId, mesAddReq.Text, createdAt)
+		mesAddReq.AuthorId, mesAddReq.ChatId, mesAddReq.Text, mesAddReq.CreatedAt)
 	err = row.Scan(&mesAddResp.MessageId)
 	if err!=nil{
 		return

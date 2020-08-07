@@ -7,9 +7,9 @@ import (
 )
 
 type dbClient interface {
-	InsertUser(userAddReq *m.UserAddRequest, createdAt string) (userAddResp *m.UserAddResponse, err error)
-	InsertChat(chatAddReq *m.ChatAddRequest, createdAt string) (chatAddResp *m.ChatAddResponse, err error)
-	InsertMessage(mesAddReq *m.MessageAddRequest, createdAt string) (mesAddResp *m.MessageAddResponse, err error)
+	InsertUser(userAddReq *m.UserAddRequest) (userAddResp *m.UserAddResponse, err error)
+	InsertChat(chatAddReq *m.ChatAddRequest) (chatAddResp *m.ChatAddResponse, err error)
+	InsertMessage(mesAddReq *m.MessageAddRequest) (mesAddResp *m.MessageAddResponse, err error)
 	SelectChats(chatsGetReq *m.ChatsGetRequest) (chatsGetResp *m.ChatsGetResponse, err error)
 	SelectMessages(mesGetReq *m.MessagesGetRequest) (mesGetResp *m.MessagesGetResponse, err error)
 }
@@ -27,20 +27,20 @@ type service struct{
 }
 
 func (s *service) AddUser(userAddReq *m.UserAddRequest) (userAddResp *m.UserAddResponse, err error){
-	createdAt := time.Now().Format(time.RFC822)
-	return s.db.InsertUser(userAddReq, createdAt)
+	userAddReq.CreatedAt = time.Now().Format(time.RFC822)
+	return s.db.InsertUser(userAddReq)
 }
 
 
 func (s *service) AddChat(chatAddReq *m.ChatAddRequest) (chatAddResp *m.ChatAddResponse, err error){
-	createdAt := time.Now().Format(time.RFC822)
-	return s.db.InsertChat(chatAddReq, createdAt)
+	chatAddReq.CreatedAt = time.Now().Format(time.RFC822)
+	return s.db.InsertChat(chatAddReq)
 }
 
 
 func (s *service) AddMessage(mesAddReq *m.MessageAddRequest) (mesAddResp *m.MessageAddResponse, err error){
-	createdAt := time.Now().Format(time.RFC822)
-	return s.db.InsertMessage(mesAddReq, createdAt)
+	mesAddReq.CreatedAt = time.Now().Format(time.RFC822)
+	return s.db.InsertMessage(mesAddReq)
 }
 
 

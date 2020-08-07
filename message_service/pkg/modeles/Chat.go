@@ -10,8 +10,9 @@ type Chat struct {
 }
 
 type ChatAddRequest struct {
-	Name      string  `json:"name"`
-	UsersId   []string   `json:"users"`
+	Name      string       `json:"name"`
+	UsersId   []string     `json:"users"`
+	CreatedAt string       `json:"-"`
 }
 
 type ChatAddResponse struct {

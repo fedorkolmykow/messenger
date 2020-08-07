@@ -3,17 +3,18 @@ package modeles
 import "time"
 
 type Message struct {
-	MessageId    string        `json:"id"`
-	ChatId       string        `json:"chat"`
-	AuthorId     string        `json:"author"`
+	MessageId    string     `json:"id"`
+	ChatId       string     `json:"chat"`
+	AuthorId     string     `json:"author"`
 	Text         string     `json:"text"`
 	CreatedAt    string     `json:"created_at"`
 }
 
 type MessageAddRequest struct {
 	ChatId      string     `json:"chat"`
-	AuthorId    string  `json:"author"`
-	Text        string  `json:"text"`
+	AuthorId    string     `json:"author"`
+	Text        string     `json:"text"`
+	CreatedAt   string     `json:"-"`
 }
 
 type MessageAddResponse struct {
@@ -21,11 +22,11 @@ type MessageAddResponse struct {
 }
 
 type MessagesGetRequest struct {
-	ChatId      string    `json:"chat"`
+	ChatId      string     `json:"chat"`
 }
 
 type MessagesGetResponse struct {
-	Messages      []Message  `json:"messages"`
+	Messages    []Message  `json:"messages"`
 }
 
 func (s MessagesGetResponse) Less(i, j int) bool {

@@ -20,9 +20,6 @@ const(
 type correctService struct{
 }
 
-type incorrectService struct{
-}
-
 type errorService struct{
 }
 
