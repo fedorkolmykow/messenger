@@ -46,14 +46,18 @@ func (s *service) AddMessage(mesAddReq *m.MessageAddRequest) (mesAddResp *m.Mess
 
 func (s *service) GetChats(chatsGetReq *m.ChatsGetRequest) (chatsGetResp *m.ChatsGetResponse, err error){
 	chatsGetResp, err = s.db.SelectChats(chatsGetReq)
-	sort.Sort(m.Chats(chatsGetResp.Chats))
+	if chatsGetResp!=nil {
+		sort.Sort(chatsGetResp.Chats)
+	}
 	return 
 }
 
 
 func (s *service) GetMessages(mesGetReq *m.MessagesGetRequest) (mesGetResp *m.MessagesGetResponse, err error){
 	mesGetResp, err = s.db.SelectMessages(mesGetReq)
-	sort.Sort(mesGetResp)
+	if mesGetResp != nil{
+		sort.Sort(mesGetResp.Messages)
+	}
 	return
 }
 
