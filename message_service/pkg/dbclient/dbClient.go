@@ -117,8 +117,8 @@ func (d *db) SelectMessages(mesGetReq *m.MessagesGetRequest) (mesGetResp *m.Mess
 			return
 		}
 		mes.MessageId = strconv.Itoa(mesId)
-		mes.ChatId = strconv.Itoa(auId)
-		mes.AuthorId = strconv.Itoa(chatId)
+		mes.ChatId = strconv.Itoa(chatId)
+		mes.AuthorId = strconv.Itoa(auId)
 		mes.CreatedAt = createdAt.Format(time.RFC822)
 		mesGetResp.Messages = append(mesGetResp.Messages, mes)
 	}
