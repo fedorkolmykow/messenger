@@ -86,11 +86,16 @@ func (d *db) SelectChats(chatsGetReq *m.ChatsGetRequest) (chatsGetResp *m.ChatsG
 	chatsGetResp = &m.ChatsGetResponse{Chats: []m.Chat{}}
 	for rows.Next(){
 		c := m.Chat{}
-		err = rows.Scan(&chatId, &c.Name, &createdAt, &c.Users)
-		c.ChatId = strconv.Itoa(chatId)
-		c.CreatedAt = createdAt.Format(time.RFC822)
+		usersId := []int{}
+		err = rows.Scan(&chatId, &c.Name, &createdAt, &usersId)
 		if err != nil{
 			return
+		}
+		c.ChatId = strconv.Itoa(chatId)
+		c.CreatedAt = createdAt.Format(time.RFC822)
+		for i := range usersId {
+			id := strconv.Itoa(usersId[i])
+			c.Users = append(c.Users, id)
 		}
 		chatsGetResp.Chats = append(chatsGetResp.Chats, c)
 	}
