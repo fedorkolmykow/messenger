@@ -35,10 +35,9 @@ selectChats = "SELECT Chats.chat_id, Chats.name, Chats.created_at," +
 	" FROM Chats " +
 	" LEFT JOIN Chat_Users ON Chat_Users.chat_id = Chats.chat_id" +
 	" WHERE Chat_Users.user_id = $1;"
-selectMessages = "SELECT message_id, author_id, chat_id, text, created_at" +
-	"FROM Messages" +
+selectMessages = "SELECT message_id, author_id, chat_id, text, created_at " +
+	"FROM Messages " +
 	"WHERE chat_id = $1;"
-selectChatsUsers = ""
 )
 
 func (d *db) InsertUser(userAddReq *m.UserAddRequest) (userAddResp *m.UserAddResponse, err error) {
@@ -114,13 +113,13 @@ func (d *db) SelectMessages(mesGetReq *m.MessagesGetRequest) (mesGetResp *m.Mess
 	for rows.Next(){
 		mes := m.Message{}
 		err = rows.Scan(&mesId, &auId, &chatId, &mes.Text, &createdAt)
+		if err != nil{
+			return
+		}
 		mes.MessageId = strconv.Itoa(mesId)
 		mes.ChatId = strconv.Itoa(auId)
 		mes.AuthorId = strconv.Itoa(chatId)
 		mes.CreatedAt = createdAt.Format(time.RFC822)
-		if err != nil{
-			return
-		}
 		mesGetResp.Messages = append(mesGetResp.Messages, mes)
 	}
 	return
