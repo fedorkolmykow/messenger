@@ -29,17 +29,17 @@ type MessagesGetResponse struct {
 	Messages    []Message  `json:"messages"`
 }
 
-func (s MessagesGetResponse) Less(i, j int) bool {
-	ti, _ := time.Parse(time.RFC822 ,s.Messages[i].CreatedAt)
-	tj, _ := time.Parse(time.RFC822 ,s.Messages[j].CreatedAt)
+func (mgr MessagesGetResponse) Less(i, j int) bool {
+	ti, _ := time.Parse(time.RFC822 ,mgr.Messages[i].CreatedAt)
+	tj, _ := time.Parse(time.RFC822 ,mgr.Messages[j].CreatedAt)
 	return ti.Before(tj)
 }
 
-func (s MessagesGetResponse) Swap(i, j int) {
-	s.Messages[i].CreatedAt, s.Messages[j].CreatedAt =
-		s.Messages[j].CreatedAt, s.Messages[i].CreatedAt
+func (mgr MessagesGetResponse) Swap(i, j int) {
+	mgr.Messages[i].CreatedAt, mgr.Messages[j].CreatedAt =
+		mgr.Messages[j].CreatedAt, mgr.Messages[i].CreatedAt
 }
 
-func (s MessagesGetResponse) Len() int {
-	return len(s.Messages)
+func (mgr MessagesGetResponse) Len() int {
+	return len(mgr.Messages)
 }

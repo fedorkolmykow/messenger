@@ -27,17 +27,17 @@ type ChatsGetResponse struct {
 	Chats      []Chat  `json:"chats"`
 }
 
-func (s ChatsGetResponse) Less(i, j int) bool {
-	ti, _ := time.Parse(time.RFC822 ,s.Chats[i].CreatedAt)
-	tj, _ := time.Parse(time.RFC822 ,s.Chats[j].CreatedAt)
+func (cgr ChatsGetResponse) Less(i, j int) bool {
+	ti, _ := time.Parse(time.RFC822 ,cgr.Chats[i].CreatedAt)
+	tj, _ := time.Parse(time.RFC822 ,cgr.Chats[j].CreatedAt)
 	return ti.Before(tj)
 }
 
-func (s ChatsGetResponse) Swap(i, j int) {
-	s.Chats[i].CreatedAt, s.Chats[j].CreatedAt =
-		s.Chats[j].CreatedAt, s.Chats[i].CreatedAt
+func (cgr ChatsGetResponse) Swap(i, j int) {
+	cgr.Chats[i].CreatedAt, cgr.Chats[j].CreatedAt =
+		cgr.Chats[j].CreatedAt, cgr.Chats[i].CreatedAt
 }
 
-func (s ChatsGetResponse) Len() int {
-	return len(s.Chats)
+func (cgr ChatsGetResponse) Len() int {
+	return len(cgr.Chats)
 }
