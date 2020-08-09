@@ -96,13 +96,48 @@ func TestHandle(t *testing.T){
 			S:            server{svc: &errorService{}},
 			Handle:       messageAdd,
 		},
-		//{
-		//	Req:          []byte(`{"user":"0"}`),
-		//	Resp:         `{"chats": [{"id": "0", "name":"newChat", "users": ["0", "1", "2"], "created_at": "2012.02.01"}]}`,
-		//	Status:       http.StatusInternalServerError,
-		//	S:            server{svc: &errorService{}},
-		//	Handle:       chatsGet,
-		//},
+		{
+			Req:          []byte(`{"user":"0"}`),
+			Resp:         `{"chats":[{"id":"0","name":"newChat","users":["0","1","2"],"created_at":"07 Aug 20 16:49 UTC"}]}`,
+			Status:       http.StatusOK,
+			S:            server{svc: &correctService{}},
+			Handle:       chatsGet,
+		},
+		{
+			Req:          []byte(`"user":"0"`),
+			Resp:         ``,
+			Status:       http.StatusBadRequest,
+			S:            server{svc: &correctService{}},
+			Handle:       chatsGet,
+		},
+		{
+			Req:          []byte(`{}`),
+			Resp:         ``,
+			Status:       http.StatusInternalServerError,
+			S:            server{svc: &errorService{}},
+			Handle:       chatsGet,
+		},
+		{
+			Req:          []byte(`{"chat":"0"}`),
+			Resp:         `{"messages":[{"id":"1","chat":"0","author":"3","text":"Is it a bird?","created_at":"09 Aug 20 13:50 UTC"}]}`,
+			Status:       http.StatusOK,
+			S:            server{svc: &correctService{}},
+			Handle:       messagesGet,
+		},
+		{
+			Req:          []byte(`"chat":"0"`),
+			Resp:         ``,
+			Status:       http.StatusBadRequest,
+			S:            server{svc: &correctService{}},
+			Handle:       messagesGet,
+		},
+		{
+			Req:          []byte(`{}`),
+			Resp:         ``,
+			Status:       http.StatusInternalServerError,
+			S:            server{svc: &errorService{}},
+			Handle:       messagesGet,
+		},
 	}
 	for num, c := range cases{
 		req := httptest.NewRequest("POST", "http://localhost/user", bytes.NewBuffer(c.Req))
@@ -143,12 +178,30 @@ func (s *correctService) AddMessage(mesAddReq *m.MessageAddRequest) (mesAddResp 
 
 
 func (s *correctService) GetChats(chatsGetReq *m.ChatsGetRequest) (chatsGetResp *m.ChatsGetResponse, err error){
-	return &m.ChatsGetResponse{}, nil
+	return &m.ChatsGetResponse{
+		Chats: []m.Chat{
+			{
+				ChatId:    "0",
+				Name:      "newChat",
+				Users:     []string{"0", "1", "2"},
+				CreatedAt: "07 Aug 20 16:49 UTC",
+			},
+		},
+	}, nil
 }
 
-
 func (s *correctService) GetMessages(mesGetReq *m.MessagesGetRequest) (mesGetResp *m.MessagesGetResponse, err error){
-	return &m.MessagesGetResponse{}, nil
+	return &m.MessagesGetResponse{
+		Messages: []m.Message{
+			{
+				MessageId: "1",
+				ChatId:    "0",
+				AuthorId:  "3",
+				Text:      "Is it a bird?",
+				CreatedAt: "09 Aug 20 13:50 UTC",
+			},
+		},
+	}, nil
 }
 
 //errorService
