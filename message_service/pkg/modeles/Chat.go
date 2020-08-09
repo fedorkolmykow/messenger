@@ -5,7 +5,7 @@ import "time"
 type Chat struct {
 	ChatId    string       `json:"id"`
 	Name      string       `json:"name"`
-	Users     []User  	   `json:"users"`
+	Users     []int  	   `json:"users"`
 	CreatedAt string       `json:"created_at"`
 }
 

@@ -383,16 +383,16 @@ func easyjsonF77207f2DecodeAvitoMessageMessageServicePkgModeles4(in *jlexer.Lexe
 				in.Delim('[')
 				if out.Users == nil {
 					if !in.IsDelim(']') {
-						out.Users = make([]User, 0, 1)
+						out.Users = make([]int, 0, 8)
 					} else {
-						out.Users = []User{}
+						out.Users = []int{}
 					}
 				} else {
 					out.Users = (out.Users)[:0]
 				}
 				for !in.IsDelim(']') {
-					var v7 User
-					(v7).UnmarshalEasyJSON(in)
+					var v7 int
+					v7 = int(in.Int())
 					out.Users = append(out.Users, v7)
 					in.WantComma()
 				}
@@ -435,7 +435,7 @@ func easyjsonF77207f2EncodeAvitoMessageMessageServicePkgModeles4(out *jwriter.Wr
 				if v8 > 0 {
 					out.RawByte(',')
 				}
-				(v9).MarshalEasyJSON(out)
+				out.Int(int(v9))
 			}
 			out.RawByte(']')
 		}

@@ -4,6 +4,8 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"strconv"
+	"time"
 
 	"github.com/jackc/pgx"
 
@@ -28,13 +30,15 @@ insertChat = "INSERT INTO Chats (name, created_at) VALUES ($1, $2) RETURNING cha
 insertChatUsers = "INSERT INTO Chat_Users (chat_id, user_id) VALUES ($1, $2);"
 insertMessage = "INSERT INTO Messages (author_id, chat_id, text, created_at " +
 	"VALUES ($1, $2, $3, $4) RETURNING message_is);"
-selectChats = "SELECT Chats.chat_id, Chats.name, Chats.created_at" +
+selectChats = "SELECT Chats.chat_id, Chats.name, Chats.created_at," +
+	" ARRAY(SELECT user_id FROM Chat_Users WHERE chat_id=Chats.chat_id) as Users" +
 	" FROM Chats " +
 	" LEFT JOIN Chat_Users ON Chat_Users.chat_id = Chats.chat_id" +
 	" WHERE Chat_Users.user_id = $1;"
-selectMessages = "SELECT Messages.message_id, Messages.author_id, Messages.chat_id, Messages.text, Messages.created_at" +
+selectMessages = "SELECT message_id, author_id, chat_id, text, created_at" +
 	"FROM Messages" +
 	"WHERE chat_id = $1;"
+selectChatsUsers = ""
 )
 
 func (d *db) InsertUser(userAddReq *m.UserAddRequest) (userAddResp *m.UserAddResponse, err error) {
@@ -71,12 +75,20 @@ func (d *db) InsertMessage(mesAddReq *m.MessageAddRequest) (mesAddResp *m.Messag
 	return
 }
 func (d *db) SelectChats(chatsGetReq *m.ChatsGetRequest) (chatsGetResp *m.ChatsGetResponse, err error) {
+	var chatId int
+	var createdAt time.Time
 	rows, err := d.dbCon.Query(context.Background(), selectChats, chatsGetReq.UserId)
 	defer rows.Close()
+	if err != nil{
+		fmt.Println(err)
+		return
+	}
 	chatsGetResp = &m.ChatsGetResponse{Chats: []m.Chat{}}
 	for rows.Next(){
 		c := m.Chat{}
-		err = rows.Scan(&c.ChatId, &c.Name, &c.CreatedAt)
+		err = rows.Scan(&chatId, &c.Name, &createdAt, &c.Users)
+		c.ChatId = strconv.Itoa(chatId)
+		c.CreatedAt = createdAt.Format(time.RFC822)
 		if err != nil{
 			return
 		}
@@ -86,16 +98,25 @@ func (d *db) SelectChats(chatsGetReq *m.ChatsGetRequest) (chatsGetResp *m.ChatsG
 	return
 }
 func (d *db) SelectMessages(mesGetReq *m.MessagesGetRequest) (mesGetResp *m.MessagesGetResponse, err error) {
+	var mesId, auId, chatId int
+	var createdAt time.Time
 	rows, err := d.dbCon.Query(context.Background(), selectMessages, mesGetReq.ChatId)
 	defer rows.Close()
+	if err != nil{
+		return
+	}
 	mesGetResp = &m.MessagesGetResponse{Messages: []m.Message{}}
 	for rows.Next(){
-		m := m.Message{}
-		err = rows.Scan(&m.MessageId, &m.AuthorId, &m.ChatId, &m.Text, &m.CreatedAt)
+		mes := m.Message{}
+		err = rows.Scan(&mesId, &auId, &chatId, &mes.Text, &createdAt)
+		mes.MessageId = strconv.Itoa(mesId)
+		mes.ChatId = strconv.Itoa(auId)
+		mes.AuthorId = strconv.Itoa(chatId)
+		mes.CreatedAt = createdAt.Format(time.RFC822)
 		if err != nil{
 			return
 		}
-		mesGetResp.Messages = append(mesGetResp.Messages, m)
+		mesGetResp.Messages = append(mesGetResp.Messages, mes)
 	}
 	return
 }
