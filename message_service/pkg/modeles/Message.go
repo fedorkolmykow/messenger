@@ -25,21 +25,22 @@ type MessagesGetRequest struct {
 	ChatId      string     `json:"chat"`
 }
 
+type Messages []Message
+
 type MessagesGetResponse struct {
-	Messages    []Message  `json:"messages"`
+	Messages    Messages  `json:"messages"`
 }
 
-func (mgr MessagesGetResponse) Less(i, j int) bool {
-	ti, _ := time.Parse(time.RFC822 ,mgr.Messages[i].CreatedAt)
-	tj, _ := time.Parse(time.RFC822 ,mgr.Messages[j].CreatedAt)
+func (m Messages) Less(i, j int) bool {
+	ti, _ := time.Parse(time.RFC822 ,m[i].CreatedAt)
+	tj, _ := time.Parse(time.RFC822 ,m[j].CreatedAt)
 	return ti.Before(tj)
 }
 
-func (mgr MessagesGetResponse) Swap(i, j int) {
-	mgr.Messages[i].CreatedAt, mgr.Messages[j].CreatedAt =
-		mgr.Messages[j].CreatedAt, mgr.Messages[i].CreatedAt
+func (m Messages) Swap(i, j int) {
+	m[i], m[j] = m[j], m[i]
 }
 
-func (mgr MessagesGetResponse) Len() int {
-	return len(mgr.Messages)
+func (m Messages) Len() int {
+	return len(m)
 }

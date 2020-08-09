@@ -23,21 +23,22 @@ type ChatsGetRequest struct {
 	UserId      string  `json:"user"`
 }
 
+type Chats []Chat
+
 type ChatsGetResponse struct {
-	Chats      []Chat  `json:"chats"`
+	Chats      Chats  `json:"chats"`
 }
 
-func (cgr ChatsGetResponse) Less(i, j int) bool {
-	ti, _ := time.Parse(time.RFC822 ,cgr.Chats[i].CreatedAt)
-	tj, _ := time.Parse(time.RFC822 ,cgr.Chats[j].CreatedAt)
+func (c Chats) Less(i, j int) bool {
+	ti, _ := time.Parse(time.RFC822 ,c[i].CreatedAt)
+	tj, _ := time.Parse(time.RFC822 ,c[j].CreatedAt)
 	return ti.Before(tj)
 }
 
-func (cgr ChatsGetResponse) Swap(i, j int) {
-	cgr.Chats[i].CreatedAt, cgr.Chats[j].CreatedAt =
-		cgr.Chats[j].CreatedAt, cgr.Chats[i].CreatedAt
+func (c Chats) Swap(i, j int) {
+	c[i], c[j] = c[j], c[i]
 }
 
-func (cgr ChatsGetResponse) Len() int {
-	return len(cgr.Chats)
+func (c Chats) Len() int {
+	return len(c)
 }
