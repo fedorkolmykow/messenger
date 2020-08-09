@@ -154,10 +154,10 @@ func NewServer(svc service) (httpServer *mux.Router) {
 	router.HandleFunc("/chats/get", s.HandleGetChat).
 		Methods("POST")
 
-	router.HandleFunc("/message/add", s.HandleAddMessage).
+	router.HandleFunc("/messages/add", s.HandleAddMessage).
 		Methods("POST")
 
-	router.HandleFunc("/message/get", s.HandleGetMessage).
+	router.HandleFunc("/messages/get", s.HandleGetMessage).
 		Methods("POST")
 
 	return router
