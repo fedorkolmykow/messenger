@@ -1,12 +1,13 @@
 package httpserver
 
 import (
-	m "avito_message/message_service/pkg/modeles"
 	"bytes"
 	"errors"
 	"net/http"
 	"net/http/httptest"
 	"testing"
+
+	m "avito_message/message_service/pkg/modeles"
 )
 
 const(
