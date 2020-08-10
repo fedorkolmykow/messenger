@@ -10,6 +10,7 @@ services:
   postgres:
     container_name: composepostgres
     build: Postgres/
+    volume: ./data:/var/lib/postgresql/data
   docs:
     image: gcr.io/api-console-a6952/app:0.1.0
     ports: "8080:8080"
