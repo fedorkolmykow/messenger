@@ -42,36 +42,40 @@ selectMessages = "SELECT message_id, author_id, chat_id, text, created_at " +
 )
 
 func (d *db) InsertUser(userAddReq *m.UserAddRequest) (userAddResp *m.UserAddResponse, err error) {
+	var userId int
 	userAddResp = &m.UserAddResponse{}
 	row := d.dbCon.QueryRow(context.Background(), insertUser, userAddReq.Username, userAddReq.CreatedAt)
-	err = row.Scan(&userAddResp.UserId)
+	err = row.Scan(&userId)
 	if err!=nil{
 		fmt.Println(err)
 	}
+	userAddResp.UserId = strconv.Itoa(userId)
 	return
 }
 func (d *db) InsertChat(chatAddReq *m.ChatAddRequest) (chatAddResp *m.ChatAddResponse, err error) {
+	var chatId int
 	chatAddResp = &m.ChatAddResponse{}
 	row := d.dbCon.QueryRow(context.Background(), insertChat, chatAddReq.Name, chatAddReq.CreatedAt)
-	err = row.Scan(&chatAddResp.ChatId)
+	err = row.Scan(&chatId)
 	if err!=nil{
 		return
 	}
-
+	chatAddResp.ChatId = strconv.Itoa(chatId)
 	for i, _ := range chatAddReq.UsersId{
 		_, err = d.dbCon.Query(context.Background(), insertChatUsers, chatAddResp.ChatId, chatAddReq.UsersId[i])
 	}
 	return
 }
 func (d *db) InsertMessage(mesAddReq *m.MessageAddRequest) (mesAddResp *m.MessageAddResponse, err error) {
+	var mesId int
 	mesAddResp = &m.MessageAddResponse{}
 	row := d.dbCon.QueryRow(context.Background(), insertMessage,
 		mesAddReq.AuthorId, mesAddReq.ChatId, mesAddReq.Text, mesAddReq.CreatedAt)
-	err = row.Scan(&mesAddResp.MessageId)
+	err = row.Scan(&mesId)
 	if err!=nil{
 		return
 	}
-
+	mesAddResp.MessageId = strconv.Itoa(mesId)
 	return
 }
 func (d *db) SelectChats(chatsGetReq *m.ChatsGetRequest) (chatsGetResp *m.ChatsGetResponse, err error) {
