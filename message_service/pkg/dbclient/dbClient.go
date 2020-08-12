@@ -7,7 +7,7 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/jackc/pgx"
+	"github.com/jackc/pgx/v4"
 
 	m "github.com/fedorkolmykow/messages/pkg/modeles"
 )
