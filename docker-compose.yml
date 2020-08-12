@@ -9,7 +9,7 @@ services:
     restart: always
   postgres:
     container_name: composepostgres
-    build: Postgres/
+    build: db/
     volumes:
       - ./data:/var/lib/postgresql/data
   docs:
