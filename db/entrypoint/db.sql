@@ -96,3 +96,7 @@ INSERT INTO Messages (message_id, author_id, chat_id, text, created_at)
 	(3, 3, 3, 'No, it is Superman!', current_timestamp);
 
  select setval('messages_message_id_seq', (select max(message_id) + 1 from Messages));
+ select setval('chats_chat_id_seq', (select max(chat_id) + 1 from Chats));
+ select setval('chat_users_chat_users_id_seq', (select max(chat_users_id) + 1 from Chat_Users));
+ select setval('users_user_id_seq', (select max(user_id) + 1 from Users));
+
