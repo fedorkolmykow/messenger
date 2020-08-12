@@ -3,6 +3,7 @@ package dbclient
 import (
 	"fmt"
 	"log"
+	"os"
 	"strconv"
 	"time"
 
@@ -126,13 +127,12 @@ func (d *db) SelectMessages(mesGetReq *m.MessagesGetRequest) (mesGetResp *m.Mess
 
 // NewDb returns a new Db instance.
 func NewDb() DbClient {
-	connStr := "postgresql://postgres:avitopass@composepostgres:5432/avitomes"
-	con, err := pgx.ParseURI(connStr)
+	con, err := pgx.ParseURI(os.Getenv("DATABASE_URL"))
 	if err != nil {
 		log.Fatal(err)
 		return nil
 	}
-	dbCon, err := pgx.Connect(con) //os.Getenv("DATABASE_URL")
+	dbCon, err := pgx.Connect(con)
 	if err != nil {
 		log.Fatal(err)
 	}

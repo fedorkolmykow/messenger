@@ -7,6 +7,8 @@ services:
     depends_on:
       - postgres
     restart: always
+    environment:
+      - DATABASE_URL="postgresql://postgres:avitopass@composepostgres:5432/avitomes"
   postgres:
     container_name: composepostgres
     build: db/
