@@ -30,7 +30,7 @@ insertUser = "INSERT INTO Users (username, created_at) VALUES ($1, $2) RETURNING
 insertChat = "INSERT INTO Chats (name, created_at) VALUES ($1, $2) RETURNING chat_id;"
 insertChatUsers = "INSERT INTO Chat_Users (chat_id, user_id) VALUES ($1, $2);"
 insertMessage = "INSERT INTO Messages (author_id, chat_id, text, created_at) " +
-	"VALUES ($1, $2, $3, $4) RETURNING message_is;"
+	"VALUES ($1, $2, $3, $4) RETURNING message_id;"
 selectChats = "SELECT Chats.chat_id, Chats.name, Chats.created_at," +
 	" ARRAY(SELECT user_id FROM Chat_Users WHERE chat_id=Chats.chat_id) as Users" +
 	" FROM Chats " +
