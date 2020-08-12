@@ -10,12 +10,14 @@ services:
   postgres:
     container_name: composepostgres
     build: Postgres/
-    volumes: ./data:/var/lib/postgresql/data
+    volumes:
+      - ./data:/var/lib/postgresql/data
   docs:
     image: gcr.io/api-console-a6952/app:0.1.0
     ports:
       - "8080:8080"
-    volumes: ./message_service/docs/:/app/api
+    volumes:
+      - ./message_service/docs/:/app/api
     environment:
       - API_PROJECT="avito-message.raml"
       - API_TYPE="RAML 1.0"
