@@ -126,7 +126,7 @@ func (d *db) SelectMessages(mesGetReq *m.MessagesGetRequest) (mesGetResp *m.Mess
 
 // NewDb returns a new Db instance.
 func NewDb() DbClient {
-	connStr := "postgresql://postgres:avitopass@localhost:5432/avitomes"
+	connStr := "postgresql://postgres:avitopass@composepostgres:5432/avitomes"
 	con, err := pgx.ParseURI(connStr)
 	if err != nil {
 		log.Fatal(err)
