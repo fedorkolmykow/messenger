@@ -12,9 +12,9 @@ services:
     build: Postgres/
     volume: ./data:/var/lib/postgresql/data
   docs:
-    image: "gcr.io/api-console-a6952/app:0.1.0"
+    image: gcr.io/api-console-a6952/app:0.1.0
     ports: "8080:8080"
-    volume: "$PWD"/message_service/docs/:/app/api
+    volume: $PWD/message_service/docs/:/app/api
     environment:
       - API_PROJECT="avito-message.raml"
       - API_TYPE="RAML 1.0"
