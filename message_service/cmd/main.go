@@ -11,8 +11,8 @@ import (
 
 func main() {
 	dbCon := dbclient.NewDb()
-	service := service.NewService(dbCon)
-	server := httpserver.NewServer(service)
+	svc := service.NewService(dbCon)
+	server := httpserver.NewServer(svc)
 
 	fmt.Println("starting server at :9000")
 	err := http.ListenAndServe(":9000", server)
