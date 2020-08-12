@@ -1,7 +1,6 @@
 package dbclient
 
 import (
-	"context"
 	"fmt"
 	"log"
 	"strconv"
@@ -9,7 +8,7 @@ import (
 
 	"github.com/jackc/pgx"
 
-	m "avito_message/message_service/pkg/modeles"
+	m "github.com/fedorkolmykow/messages/pkg/modeles"
 )
 
 type DbClient interface {
@@ -42,7 +41,7 @@ selectMessages = "SELECT message_id, author_id, chat_id, text, created_at " +
 
 func (d *db) InsertUser(userAddReq *m.UserAddRequest) (userAddResp *m.UserAddResponse, err error) {
 	userAddResp = &m.UserAddResponse{}
-	row := d.dbCon.QueryRow(context.Background(), insertUser, userAddReq.Username, userAddReq.CreatedAt)
+	row := d.dbCon.QueryRow( insertUser, userAddReq.Username, userAddReq.CreatedAt)
 	err = row.Scan(&userAddResp.UserId)
 	if err!=nil{
 		fmt.Println(err)
@@ -51,20 +50,20 @@ func (d *db) InsertUser(userAddReq *m.UserAddRequest) (userAddResp *m.UserAddRes
 }
 func (d *db) InsertChat(chatAddReq *m.ChatAddRequest) (chatAddResp *m.ChatAddResponse, err error) {
 	chatAddResp = &m.ChatAddResponse{}
-	row := d.dbCon.QueryRow(context.Background(), insertChat, chatAddReq.Name, chatAddReq.CreatedAt)
+	row := d.dbCon.QueryRow(insertChat, chatAddReq.Name, chatAddReq.CreatedAt)
 	err = row.Scan(&chatAddResp.ChatId)
 	if err!=nil{
 		return
 	}
 
 	for i, _ := range chatAddReq.UsersId{
-		_, err = d.dbCon.Query(context.Background(), insertChatUsers, chatAddResp.ChatId, chatAddReq.UsersId[i])
+		_, err = d.dbCon.Query(insertChatUsers, chatAddResp.ChatId, chatAddReq.UsersId[i])
 	}
 	return
 }
 func (d *db) InsertMessage(mesAddReq *m.MessageAddRequest) (mesAddResp *m.MessageAddResponse, err error) {
 	mesAddResp = &m.MessageAddResponse{}
-	row := d.dbCon.QueryRow(context.Background(), insertMessage,
+	row := d.dbCon.QueryRow(insertMessage,
 		mesAddReq.AuthorId, mesAddReq.ChatId, mesAddReq.Text, mesAddReq.CreatedAt)
 	err = row.Scan(&mesAddResp.MessageId)
 	if err!=nil{
@@ -76,7 +75,7 @@ func (d *db) InsertMessage(mesAddReq *m.MessageAddRequest) (mesAddResp *m.Messag
 func (d *db) SelectChats(chatsGetReq *m.ChatsGetRequest) (chatsGetResp *m.ChatsGetResponse, err error) {
 	var chatId int
 	var createdAt time.Time
-	rows, err := d.dbCon.Query(context.Background(), selectChats, chatsGetReq.UserId)
+	rows, err := d.dbCon.Query(selectChats, chatsGetReq.UserId)
 	defer rows.Close()
 	if err != nil{
 		fmt.Println(err)
@@ -104,7 +103,7 @@ func (d *db) SelectChats(chatsGetReq *m.ChatsGetRequest) (chatsGetResp *m.ChatsG
 func (d *db) SelectMessages(mesGetReq *m.MessagesGetRequest) (mesGetResp *m.MessagesGetResponse, err error) {
 	var mesId, auId, chatId int
 	var createdAt time.Time
-	rows, err := d.dbCon.Query(context.Background(), selectMessages, mesGetReq.ChatId)
+	rows, err := d.dbCon.Query(selectMessages, mesGetReq.ChatId)
 	defer rows.Close()
 	if err != nil{
 		return
@@ -126,10 +125,14 @@ func (d *db) SelectMessages(mesGetReq *m.MessagesGetRequest) (mesGetResp *m.Mess
 }
 
 // NewDb returns a new Db instance.
-func NewDb(ctx context.Context) DbClient {
+func NewDb() DbClient {
 	connStr := "postgresql://postgres:avitopass@localhost:5432/avitomes"
-	dbCon, err := pgx.Connect(ctx, connStr) //os.Getenv("DATABASE_URL")
-
+	con, err := pgx.ParseURI(connStr)
+	if err != nil {
+		log.Fatal(err)
+		return nil
+	}
+	dbCon, err := pgx.Connect(con) //os.Getenv("DATABASE_URL")
 	if err != nil {
 		log.Fatal(err)
 	}

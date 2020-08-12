@@ -4,7 +4,7 @@ import (
 	"reflect"
 	"testing"
 
-	m "avito_message/message_service/pkg/modeles"
+	m "github.com/fedorkolmykow/messages/pkg/modeles"
 )
 
 type mockDbCon struct{

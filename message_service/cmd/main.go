@@ -1,17 +1,16 @@
 package main
 
 import (
-	"context"
 	"fmt"
 	"net/http"
 
-	"avito_message/message_service/pkg/dbclient"
-	"avito_message/message_service/pkg/service"
-	"avito_message/message_service/pkg/service/httpserver"
+	"github.com/fedorkolmykow/messages/pkg/dbclient"
+	"github.com/fedorkolmykow/messages/pkg/service"
+	"github.com/fedorkolmykow/messages/pkg/service/httpserver"
 )
 
 func main() {
-	dbCon := dbclient.NewDb(context.Background())
+	dbCon := dbclient.NewDb()
 	service := service.NewService(dbCon)
 	server := httpserver.NewServer(service)
 

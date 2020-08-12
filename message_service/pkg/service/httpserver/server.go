@@ -6,7 +6,7 @@ import (
 
 	"github.com/gorilla/mux"
 
-	m "avito_message/message_service/pkg/modeles"
+	m "github.com/fedorkolmykow/messages/pkg/modeles"
 )
 
 type service interface {

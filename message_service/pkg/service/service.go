@@ -1,7 +1,7 @@
 package service
 
 import (
-	m "avito_message/message_service/pkg/modeles"
+	m "github.com/fedorkolmykow/messages/pkg/modeles"
 	"sort"
 	"time"
 )
