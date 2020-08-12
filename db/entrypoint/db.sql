@@ -95,7 +95,7 @@ INSERT INTO Messages (message_id, author_id, chat_id, text, created_at)
 	(2, 2, 3, 'Is it a plane?', current_timestamp),
 	(3, 3, 3, 'No, it is Superman!', current_timestamp);
 
-REINDEX TABLE Messages;
-REINDEX TABLE Chat_Users;
-REINDEX TABLE Chats;
-REINDEX TABLE Users;
+REINDEX INDEX Messages_pkey;
+REINDEX INDEX Chat_Users_pkey;
+REINDEX INDEX Chats_pkey;
+REINDEX INDEX Users_pkey;
