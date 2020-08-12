@@ -94,3 +94,5 @@ INSERT INTO Messages (message_id, author_id, chat_id, text, created_at)
 	(1, 0, 3, 'Is it a bird?', current_timestamp),
 	(2, 2, 3, 'Is it a plane?', current_timestamp),
 	(3, 3, 3, 'No, it is Superman!', current_timestamp);
+
+select setval(' id_sequence', (select max( id ) + 1 from  mytable));
