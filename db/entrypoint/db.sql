@@ -95,7 +95,4 @@ INSERT INTO Messages (message_id, author_id, chat_id, text, created_at)
 	(2, 2, 3, 'Is it a plane?', current_timestamp),
 	(3, 3, 3, 'No, it is Superman!', current_timestamp);
 
-REINDEX INDEX Messages_pk;
-REINDEX INDEX Chat_Users_pk;
-REINDEX INDEX Chats_pk;
-REINDEX INDEX Users_pk;
+ select setval('messages_message_id_seq', (select max(message_id) + 1 from Messages));
