@@ -95,7 +95,4 @@ INSERT INTO Messages (message_id, author_id, chat_id, text, created_at)
 	(2, 2, 3, 'Is it a plane?', current_timestamp),
 	(3, 3, 3, 'No, it is Superman!', current_timestamp);
 
-select setval(' id_sequence', (select max( id ) + 1 from  Messages));
-select setval(' id_sequence', (select max( id ) + 1 from  Chat_Users));
-select setval(' id_sequence', (select max( id ) + 1 from  Chats));
-select setval(' id_sequence', (select max( id ) + 1 from  Users));
+REINDEX DATABASE avitomes;
