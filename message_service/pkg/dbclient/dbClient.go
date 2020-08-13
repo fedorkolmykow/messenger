@@ -95,6 +95,7 @@ func (d *db) SelectChats(chatsGetReq *m.ChatsGetRequest) (chatsGetResp *m.ChatsG
 		if err != nil{
 			return
 		}
+		defer rows.Close()
 		c.ChatId = strconv.Itoa(chatId)
 		c.CreatedAt = createdAt.Format(time.RFC822)
 		for i := range usersId {
