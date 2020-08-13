@@ -54,6 +54,7 @@ func (d *db) InsertUser(userAddReq *m.UserAddRequest) (userAddResp *m.UserAddRes
 }
 func (d *db) InsertChat(chatAddReq *m.ChatAddRequest) (chatAddResp *m.ChatAddResponse, err error) {
 	var chatId int
+	b := &pgx.Batch{}
 	chatAddResp = &m.ChatAddResponse{}
 	row := d.dbCon.QueryRow(context.Background(), insertChat, chatAddReq.Name, chatAddReq.CreatedAt)
 	err = row.Scan(&chatId)
@@ -62,8 +63,15 @@ func (d *db) InsertChat(chatAddReq *m.ChatAddRequest) (chatAddResp *m.ChatAddRes
 	}
 	chatAddResp.ChatId = strconv.Itoa(chatId)
 	for i, _ := range chatAddReq.UsersId{
-		_, err = d.dbCon.Query(context.Background(), insertChatUsers, chatAddResp.ChatId, chatAddReq.UsersId[i])
+		b.Queue(insertChatUsers, chatAddResp.ChatId, chatAddReq.UsersId[i])
 	}
+	br := d.dbCon.SendBatch(context.Background(), b)
+	defer br.Close()
+	rows, err := br.Query()
+	if err != nil {
+		return
+	}
+	defer rows.Close()
 	return
 }
 func (d *db) InsertMessage(mesAddReq *m.MessageAddRequest) (mesAddResp *m.MessageAddResponse, err error) {
@@ -95,7 +103,6 @@ func (d *db) SelectChats(chatsGetReq *m.ChatsGetRequest) (chatsGetResp *m.ChatsG
 		if err != nil{
 			return
 		}
-		defer rows.Close()
 		c.ChatId = strconv.Itoa(chatId)
 		c.CreatedAt = createdAt.Format(time.RFC822)
 		for i := range usersId {
