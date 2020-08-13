@@ -82,11 +82,11 @@ func (d *db) SelectChats(chatsGetReq *m.ChatsGetRequest) (chatsGetResp *m.ChatsG
 	var chatId int
 	var createdAt time.Time
 	rows, err := d.dbCon.Query(context.Background(), selectChats, chatsGetReq.UserId)
-	defer rows.Close()
 	if err != nil{
 		fmt.Println(err)
 		return
 	}
+	defer rows.Close()
 	chatsGetResp = &m.ChatsGetResponse{Chats: []m.Chat{}}
 	for rows.Next(){
 		c := m.Chat{}
@@ -110,10 +110,10 @@ func (d *db) SelectMessages(mesGetReq *m.MessagesGetRequest) (mesGetResp *m.Mess
 	var mesId, auId, chatId int
 	var createdAt time.Time
 	rows, err := d.dbCon.Query(context.Background(), selectMessages, mesGetReq.ChatId)
-	defer rows.Close()
 	if err != nil{
 		return
 	}
+	defer rows.Close()
 	mesGetResp = &m.MessagesGetResponse{Messages: []m.Message{}}
 	for rows.Next(){
 		mes := m.Message{}
