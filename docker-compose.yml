@@ -18,6 +18,8 @@ services:
   docs:
     container_name: raml
     image: gcr.io/api-console-a6952/app:0.1.0
+    ports:
+      - "8080:8080"
     volumes:
       - ./message_service/docs:/app/api
     environment:
