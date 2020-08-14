@@ -9,15 +9,15 @@ services:
     restart: always
     environment:
       - DATABASE_URL=postgresql://postgres:avitopass@composepostgres:5432/avitomes
+      - DOCS_URL=raml:8080
   postgres:
     container_name: composepostgres
     build: db/
     volumes:
       - ./data:/var/lib/postgresql/data
   docs:
+    container_name: raml
     image: gcr.io/api-console-a6952/app:0.1.0
-    ports:
-      - "8080:8080"
     volumes:
       - ./message_service/docs:/app/api
     environment:

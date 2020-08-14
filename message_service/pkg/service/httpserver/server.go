@@ -3,6 +3,7 @@ package httpserver
 import (
 	"io/ioutil"
 	"net/http"
+	"os"
 
 	"github.com/gorilla/mux"
 
@@ -136,6 +137,10 @@ func (s *server) HandleGetMessage(w http.ResponseWriter, r *http.Request) {
 	w.Write(resp)
 }
 
+func (s *server) HandleDocsRedirect(w http.ResponseWriter, r *http.Request) {
+	http.Redirect(w, r, os.Getenv("DOCS_URL"), http.StatusSeeOther)
+}
+
 //func (s *server) Handle(w http.ResponseWriter, r *http.Request) {
 //	fmt.Fprintln(w, "Привет, мир!")
 //}
@@ -159,6 +164,8 @@ func NewServer(svc service) (httpServer *mux.Router) {
 
 	router.HandleFunc("/messages/get", s.HandleGetMessage).
 		Methods("POST")
+
+	router.HandleFunc("/docs", s.HandleDocsRedirect)
 
 	return router
 }
