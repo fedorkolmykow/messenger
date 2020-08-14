@@ -64,36 +64,36 @@ ALTER TABLE Chat_Users ADD CONSTRAINT Chat_Users_fk1 FOREIGN KEY (user_id) REFER
 
 INSERT INTO Users (user_id, username, created_at)
 	VALUES	
-	(0, 'Mark Green', current_timestamp),
-	(1, 'Jack Blue', current_timestamp),
-	(2, 'Mary Bloody', current_timestamp),
-	(3, 'Daria Purple', current_timestamp);
+	(1, 'Mark Green', current_timestamp),
+	(2, 'Jack Blue', current_timestamp),
+	(3, 'Mary Bloody', current_timestamp),
+	(4, 'Daria Purple', current_timestamp);
 	
 INSERT INTO Chats (chat_id, name, created_at)
 	VALUES	
-	(0, 'Rats', current_timestamp),
-	(1, 'Students', current_timestamp),
-	(2, 'Teachers', current_timestamp),
-	(3, 'World government', current_timestamp);
+	(1, 'Rats', current_timestamp),
+	(2, 'Students', current_timestamp),
+	(3, 'Teachers', current_timestamp),
+	(4, 'World government', current_timestamp);
 	
 INSERT INTO Chat_Users (chat_users_id, chat_id, user_id)
 	VALUES	
-	(0, 0, 0),
-	(1, 0, 2),
-	(2, 1, 1),
-	(3, 1, 2),
-	(4, 2, 0),
-	(5, 2, 3),
-	(6, 3, 0),
-	(7, 3, 2),
-	(8, 3, 3);
+	(1, 1, 1),
+	(2, 1, 3),
+	(3, 2, 2),
+	(4, 2, 3),
+	(5, 3, 1),
+	(6, 3, 4),
+	(7, 4, 1),
+	(8, 4, 3),
+	(9, 4, 4);
 	
 INSERT INTO Messages (message_id, author_id, chat_id, text, created_at)
 	VALUES	
-	(0, 2, 1, 'OMG, LOOK ON THIS!', current_timestamp),
-	(1, 0, 3, 'Is it a bird?', current_timestamp),
-	(2, 2, 3, 'Is it a plane?', current_timestamp),
-	(3, 3, 3, 'No, it is Superman!', current_timestamp);
+	(1, 3, 2, 'OMG, LOOK ON THIS!', current_timestamp),
+	(2, 1, 4, 'Is it a bird?', current_timestamp),
+	(3, 3, 4, 'Is it a plane?', current_timestamp),
+	(4, 4, 4, 'No, it is Superman!', current_timestamp);
 
  select setval('messages_message_id_seq', (select max(message_id) + 1 from Messages));
  select setval('chats_chat_id_seq', (select max(chat_id) + 1 from Chats));
