@@ -13,7 +13,7 @@ types:
       users:
         type: array
       created_at:
-        type: datetime
+        type: string
   Message:
     type: object
     properties:
@@ -26,10 +26,9 @@ types:
       text:
         type: string
       created_at:
-        type: datetime    
+        type: string    
    
-/users:
-  /add:
+/users/add:
     post:
       body:
         application/json:
@@ -43,9 +42,14 @@ types:
             application/json:
               type: 
                 properties:
-                  id: string
-/chats:
-  /add:
+                  id: 
+                    type: string
+                    example: "5"
+        400:
+          description: StatusBadRequest
+        500:
+          description: StatusInternalServerError
+/chats/add:
     post:
       body:
         application/json:
@@ -55,20 +59,28 @@ types:
               example: The best chat ever
             users:
               type: array
-              example: ["0", "1", "999"]
+              example: ["1", "2", "3"]
       responses:
         200:
           body:
             application/json:
               properties:
-                id: string
-  /get:
+                id: 
+                  type: string
+                  example: "5"
+        400:
+          description: StatusBadRequest
+        500:
+          description: StatusInternalServerError
+/chats/get:
     post:
       body:
         application/json:
           type:
             properties:
-              user: string
+              user: 
+                type: string
+                example: "4"
       responses:
         200:
           body:
@@ -76,32 +88,57 @@ types:
               properties:
                 chats: 
                   type: Chat[]
-/message:
-  /add:
+                  example:
+                    - 
+                      id: "3"
+                      name: "Teachers"
+                      users: ["1", "4"]
+                      created_at: "02 Jan 06 15:04 MST"
+                    -
+                      id: "4"
+                      name: "World governmen"
+                      users: ["1", "3", "4"]
+                      created_at: "02 Jan 06 15:04 MST"       
+        400:
+          description: StatusBadRequest
+        500:
+          description: StatusInternalServerError
+
+/message/add:
     post:
       body:
         application/json:
           properties:
             chat: 
               type: string
+              example: "1"
             author:
               type: string
+              example: "1"
             text:
               type: string
+              example: "Przyklad"
       responses:
         200:
           body:
             application/json:
               properties:
-                id:
+                id: 
                   type: string
-  /get:
+                  example: "5"
+        400:
+          description: StatusBadRequest
+        500:
+          description: StatusInternalServerError
+
+/message/get:
     post:
       body:
         applications/json:
           properties:
             chat:
               type: string
+              example: "2"
       responses:
         200:
           body:
@@ -109,3 +146,14 @@ types:
               properties:
                 messages: 
                   type: Message[]
+                  example:
+                    - 
+                      id: "1"
+                      author: "3"
+                      chat: "2"
+                      text: "OMG, LOOK ON THIS!"
+                      created_at: "02 Jan 06 15:04 MST"
+        400:
+          description: StatusBadRequest
+        500:
+          description: StatusInternalServerError
