@@ -21,6 +21,6 @@ services:
     volumes:
       - ./message_service/docs:/app/api
     environment:
-      - API_PROJECT="avito-message.raml"
-      - API_TYPE="RAML 1.0"
-      - API_MIME="application/raml"
+      - API_PROJECT=avito-message.raml
+      - API_TYPE=RAML 1.0
+      - API_MIME=application/raml
