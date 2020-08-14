@@ -19,7 +19,7 @@ services:
     ports:
       - "8080:8080"
     volumes:
-      - ./message_service/docs/:/app/api
+      - ./message_service/docs:/app/api
     environment:
       - API_PROJECT="avito-message.raml"
       - API_TYPE="RAML 1.0"
