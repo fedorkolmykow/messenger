@@ -9,7 +9,6 @@ services:
     restart: always
     environment:
       - DATABASE_URL=postgresql://postgres:avitopass@composepostgres:5432/avitomes
-      - DOCS_URL=raml:8080
   postgres:
     container_name: composepostgres
     build: db/
