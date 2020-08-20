@@ -7,7 +7,7 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	m "github.com/fedorkolmykow/messages/pkg/modeles"
+	m "github.com/fedorkolmykow/messesnger/pkg/modeles"
 )
 
 const(

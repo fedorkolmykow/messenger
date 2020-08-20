@@ -9,7 +9,7 @@ import (
 
 	"github.com/jackc/pgx/v4"
 
-	m "github.com/fedorkolmykow/messages/pkg/modeles"
+	m "github.com/fedorkolmykow/messesnger/pkg/modeles"
 )
 
 type DbClient interface {

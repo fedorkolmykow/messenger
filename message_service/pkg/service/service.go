@@ -1,7 +1,7 @@
 package service
 
 import (
-	m "github.com/fedorkolmykow/messages/pkg/modeles"
+	m "github.com/fedorkolmykow/messesnger/pkg/modeles"
 	"sort"
 	"time"
 )

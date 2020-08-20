@@ -1,11 +1,10 @@
-module github.com/fedorkolmykow/messages
+module github.com/fedorkolmykow/messesnger
 
 go 1.13
 
 require (
 	github.com/gofrs/uuid v3.3.0+incompatible // indirect
 	github.com/gorilla/mux v1.7.4
-	github.com/jackc/fake v0.0.0-20150926172116-812a484cc733 // indirect
 	github.com/jackc/pgx/v4 v4.8.1
 	github.com/lib/pq v1.8.0 // indirect
 	github.com/mailru/easyjson v0.7.3

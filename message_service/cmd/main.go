@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/fedorkolmykow/messages/pkg/dbclient"
-	"github.com/fedorkolmykow/messages/pkg/service"
-	"github.com/fedorkolmykow/messages/pkg/service/httpserver"
+	"github.com/fedorkolmykow/messesnger/pkg/dbclient"
+	"github.com/fedorkolmykow/messesnger/pkg/service"
+	"github.com/fedorkolmykow/messesnger/pkg/service/httpserver"
 )
 
 func main() {

@@ -4,7 +4,7 @@ import (
 	"reflect"
 	"testing"
 
-	m "github.com/fedorkolmykow/messages/pkg/modeles"
+	m "github.com/fedorkolmykow/messesnger/pkg/modeles"
 )
 
 type mockDbCon struct{
