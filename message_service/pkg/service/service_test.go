@@ -37,7 +37,7 @@ func Test_SortingChatsCorrect(t *testing.T){
 		t.Errorf("Unexpected error: %s", err)
 	}
 
-	for i, _ := range exp{
+	for i := range exp{
 		if !reflect.DeepEqual(exp[i],res.Chats[i]){
 			t.Errorf("\nUnexpected result:\n%s\nExpected:\n%s ", res.Chats, exp)
 			break
@@ -78,7 +78,7 @@ func Test_SortingMessagesCorrect(t *testing.T){
 		t.Errorf("Unexpected error: %s", err)
 	}
 
-	for i, _ := range exp{
+	for i := range exp{
 		if !reflect.DeepEqual(exp[i],res.Messages[i]){
 			t.Errorf("\nUnexpected result:\n%s\nExpected:\n%s ", res.Messages, exp)
 			break

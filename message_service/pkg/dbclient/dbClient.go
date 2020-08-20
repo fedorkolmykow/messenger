@@ -63,7 +63,7 @@ func (d *db) InsertChat(chatAddReq *m.ChatAddRequest) (chatAddResp *m.ChatAddRes
 		return
 	}
 	chatAddResp.ChatId = strconv.Itoa(chatId)
-	for i, _ := range chatAddReq.UsersId{
+	for i := range chatAddReq.UsersId{
 		b.Queue(insertChatUsers, chatAddResp.ChatId, chatAddReq.UsersId[i])
 	}
 	br := d.dbCon.SendBatch(context.Background(), b)
