@@ -23,6 +23,10 @@ type server struct {
 
 func (s *server) HandleAddUser(w http.ResponseWriter, r *http.Request) {
 	body, err := ioutil.ReadAll(r.Body)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
 	defer r.Body.Close()
 	userAddReq:= &m.UserAddRequest{}
 	err = userAddReq.UnmarshalJSON(body)
@@ -49,6 +53,10 @@ func (s *server) HandleAddUser(w http.ResponseWriter, r *http.Request) {
 
 func (s *server) HandleAddChat(w http.ResponseWriter, r *http.Request) {
 	body, err := ioutil.ReadAll(r.Body)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
 	defer r.Body.Close()
 	chatAddReq:= &m.ChatAddRequest{}
 	err = chatAddReq.UnmarshalJSON(body)
@@ -75,6 +83,10 @@ func (s *server) HandleAddChat(w http.ResponseWriter, r *http.Request) {
 
 func (s *server) HandleGetChat(w http.ResponseWriter, r *http.Request) {
 	body, err := ioutil.ReadAll(r.Body)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
 	defer r.Body.Close()
 	chatsGetReq:= &m.ChatsGetRequest{}
 	err = chatsGetReq.UnmarshalJSON(body)
@@ -101,6 +113,10 @@ func (s *server) HandleGetChat(w http.ResponseWriter, r *http.Request) {
 
 func (s *server) HandleAddMessage(w http.ResponseWriter, r *http.Request) {
 	body, err := ioutil.ReadAll(r.Body)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
 	defer r.Body.Close()
 	mesAddReq:= &m.MessageAddRequest{}
 	err = mesAddReq.UnmarshalJSON(body)
@@ -127,6 +143,10 @@ func (s *server) HandleAddMessage(w http.ResponseWriter, r *http.Request) {
 
 func (s *server) HandleGetMessage(w http.ResponseWriter, r *http.Request) {
 	body, err := ioutil.ReadAll(r.Body)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
 	defer r.Body.Close()
 	mesGetReq:= &m.MessagesGetRequest{}
 	err = mesGetReq.UnmarshalJSON(body)
