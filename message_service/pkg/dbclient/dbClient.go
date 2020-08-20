@@ -46,7 +46,7 @@ func (d *db) InsertUser(userAddReq *m.UserAddRequest) (userAddResp *m.UserAddRes
 	row := d.dbCon.QueryRow(context.Background(), insertUser, userAddReq.Username, userAddReq.CreatedAt)
 	err = row.Scan(&userId)
 	if err!=nil{
-		log.Fatal(err)
+		log.Println(err)
 		return
 	}
 	userAddResp.UserId = strconv.Itoa(userId)
@@ -59,7 +59,7 @@ func (d *db) InsertChat(chatAddReq *m.ChatAddRequest) (chatAddResp *m.ChatAddRes
 	row := d.dbCon.QueryRow(context.Background(), insertChat, chatAddReq.Name, chatAddReq.CreatedAt)
 	err = row.Scan(&chatId)
 	if err!=nil{
-		log.Fatal(err)
+		log.Println(err)
 		return
 	}
 	chatAddResp.ChatId = strconv.Itoa(chatId)
@@ -70,7 +70,7 @@ func (d *db) InsertChat(chatAddReq *m.ChatAddRequest) (chatAddResp *m.ChatAddRes
 	defer br.Close()
 	rows, err := br.Query()
 	if err != nil {
-		log.Fatal(err)
+		log.Println(err)
 		return
 	}
 	defer rows.Close()
@@ -83,7 +83,7 @@ func (d *db) InsertMessage(mesAddReq *m.MessageAddRequest) (mesAddResp *m.Messag
 		mesAddReq.AuthorId, mesAddReq.ChatId, mesAddReq.Text, mesAddReq.CreatedAt)
 	err = row.Scan(&mesId)
 	if err!=nil{
-		log.Fatal(err)
+		log.Println(err)
 		return
 	}
 	mesAddResp.MessageId = strconv.Itoa(mesId)
@@ -94,7 +94,7 @@ func (d *db) SelectChats(chatsGetReq *m.ChatsGetRequest) (chatsGetResp *m.ChatsG
 	var createdAt time.Time
 	rows, err := d.dbCon.Query(context.Background(), selectChats, chatsGetReq.UserId)
 	if err != nil{
-		log.Fatal(err)
+		log.Println(err)
 		return
 	}
 	defer rows.Close()
@@ -104,7 +104,7 @@ func (d *db) SelectChats(chatsGetReq *m.ChatsGetRequest) (chatsGetResp *m.ChatsG
 		usersId := []int{}
 		err = rows.Scan(&chatId, &c.Name, &createdAt, &usersId)
 		if err != nil{
-			log.Fatal(err)
+			log.Println(err)
 			return
 		}
 		c.ChatId = strconv.Itoa(chatId)
@@ -123,7 +123,7 @@ func (d *db) SelectMessages(mesGetReq *m.MessagesGetRequest) (mesGetResp *m.Mess
 	var createdAt time.Time
 	rows, err := d.dbCon.Query(context.Background(), selectMessages, mesGetReq.ChatId)
 	if err != nil{
-		log.Fatal(err)
+		log.Println(err)
 		return
 	}
 	defer rows.Close()
@@ -132,7 +132,7 @@ func (d *db) SelectMessages(mesGetReq *m.MessagesGetRequest) (mesGetResp *m.Mess
 		mes := m.Message{}
 		err = rows.Scan(&mesId, &auId, &chatId, &mes.Text, &createdAt)
 		if err != nil{
-			log.Fatal(err)
+			log.Println(err)
 			return
 		}
 		mes.MessageId = strconv.Itoa(mesId)
@@ -148,7 +148,7 @@ func (d *db) SelectMessages(mesGetReq *m.MessagesGetRequest) (mesGetResp *m.Mess
 func NewDb() DbClient {
 	dbCon, err := pgx.Connect(context.Background(), os.Getenv("DATABASE_URL"))
 	if err != nil {
-		log.Fatal(err)
+		log.Println(err)
 	}
 
 	return &db{dbCon: dbCon}
