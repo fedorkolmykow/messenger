@@ -3,6 +3,7 @@ package httpserver
 import (
 	"github.com/gorilla/mux"
 	"io/ioutil"
+	"log"
 	"net/http"
 
 	m "github.com/fedorkolmykow/messesnger/pkg/modeles"
@@ -40,7 +41,10 @@ func (s *server) HandleAddUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	w.Header().Set("Content-Type", "application/json")
-	w.Write(resp)
+	_, err = w.Write(resp)
+	if err != nil {
+		log.Println(err)
+	}
 }
 
 func (s *server) HandleAddChat(w http.ResponseWriter, r *http.Request) {
@@ -63,7 +67,10 @@ func (s *server) HandleAddChat(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	w.Header().Set("Content-Type", "application/json")
-	w.Write(resp)
+	_, err = w.Write(resp)
+	if err != nil {
+		log.Println(err)
+	}
 }
 
 func (s *server) HandleGetChat(w http.ResponseWriter, r *http.Request) {
@@ -86,7 +93,10 @@ func (s *server) HandleGetChat(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	w.Header().Set("Content-Type", "application/json")
-	w.Write(resp)
+	_, err = w.Write(resp)
+	if err != nil {
+		log.Println(err)
+	}
 }
 
 func (s *server) HandleAddMessage(w http.ResponseWriter, r *http.Request) {
@@ -109,7 +119,10 @@ func (s *server) HandleAddMessage(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	w.Header().Set("Content-Type", "application/json")
-	w.Write(resp)
+	_, err = w.Write(resp)
+	if err != nil {
+		log.Println(err)
+	}
 }
 
 func (s *server) HandleGetMessage(w http.ResponseWriter, r *http.Request) {
@@ -132,7 +145,10 @@ func (s *server) HandleGetMessage(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	w.Header().Set("Content-Type", "application/json")
-	w.Write(resp)
+	_, err = w.Write(resp)
+	if err != nil {
+		log.Println(err)
+	}
 }
 
 //func (s *server) Handle(w http.ResponseWriter, r *http.Request) {
