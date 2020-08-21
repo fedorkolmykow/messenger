@@ -95,8 +95,8 @@ INSERT INTO Messages (message_id, author_id, chat_id, text, created_at)
 	(3, 3, 4, 'Is it a plane?', current_timestamp),
 	(4, 4, 4, 'No, it is Superman!', current_timestamp);
 
- select setval('messages_message_id_seq', (select max(message_id) + 1 from Messages));
- select setval('chats_chat_id_seq', (select max(chat_id) + 1 from Chats));
- select setval('chat_users_chat_users_id_seq', (select max(chat_users_id) + 1 from Chat_Users));
- select setval('users_user_id_seq', (select max(user_id) + 1 from Users));
+ select setval('messages_message_id_seq', (select max(message_id)  from Messages));
+ select setval('chats_chat_id_seq', (select max(chat_id) from Chats));
+ select setval('chat_users_chat_users_id_seq', (select max(chat_users_id) from Chat_Users));
+ select setval('users_user_id_seq', (select max(user_id) from Users));
 
